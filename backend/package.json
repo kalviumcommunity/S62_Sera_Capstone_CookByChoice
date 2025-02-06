@@ -1,0 +1,20 @@
+{
+  "name": "s62_sera_capstone_cookbychoice-1",
+  "version": "1.0.0",
+  "description": "CookByChoice is a recipe discovery application that allows users to find recipes based on the ingredients they already have at home. Instead of searching through various recipe sources manually, users can input their available ingredients and receive real-time recipe suggestions. The project utilizes the MERN stack (MongoDB, Express.js, React, Node.js) to create an interactive and full-stack application.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.7",
+    "nodemon": "^3.1.9"
+  }
+}
