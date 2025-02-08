@@ -17,4 +17,23 @@ const addIngredient = async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }
 };
-module.exports=addIngredient;
+
+const GetAllIngredients=async(req,res)=>{
+    try {
+        const ingredients = await Ingredient.find();
+        res.status(200).json(ingredients);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+const GetIngredientById=async(req,res)=>{
+    try {
+        const ingredient = await Ingredient.findById(req.params.id);
+        if (!ingredient) return res.status(404).json({ message: "Ingredient not found" });
+        res.status(200).json(ingredient);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+module.exports={addIngredient,GetAllIngredients,GetIngredientById};
