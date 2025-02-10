@@ -48,4 +48,13 @@ const GetRecipeById=async(req,res)=>{
     res.status(500).json({ error: error.message });
 }
 }
-module.exports={createRecipe,GetAllRecipes,GetRecipeById};
+const UpdateRecipe=async(req,res)=>{
+  try {
+    const updatedRecipe = await Recipe.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedRecipe) return res.status(404).json({ message: "Recipe not found" });
+    res.status(200).json(updatedRecipe);
+} catch (error) {
+    res.status(500).json({ error: error.message });
+}
+}
+module.exports={createRecipe,GetAllRecipes,GetRecipeById,UpdateRecipe};

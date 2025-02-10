@@ -30,4 +30,13 @@ const GetFavouriteById=async(req,res)=>{
         res.status(500).json({ error: error.message });
     }
 }
-module.exports={addToFavourites,GetAllFavourites,GetFavouriteById};
+const UpdateFavorite=async(req,res)=>{
+    try {
+        const updatedFavorite = await favouriteModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedFavorite) return res.status(404).json({ message: "Favorite not found" });
+        res.status(200).json(updatedFavorite);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+module.exports={addToFavourites,GetAllFavourites,GetFavouriteById,UpdateFavorite};
