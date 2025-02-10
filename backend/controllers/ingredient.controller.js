@@ -36,4 +36,14 @@ const GetIngredientById=async(req,res)=>{
         res.status(500).json({ error: error.message });
     }
 }
-module.exports={addIngredient,GetAllIngredients,GetIngredientById};
+
+const UpdateIngredient = async (req, res) => {
+    try {
+        const updatedIngredient = await Ingredient.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedIngredient) return res.status(404).json({ message: "Ingredient not found" });
+        res.status(200).json(updatedIngredient);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+module.exports={addIngredient,GetAllIngredients,GetIngredientById,UpdateIngredient};
