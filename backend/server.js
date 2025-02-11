@@ -16,11 +16,11 @@ app.use('/api/recipes',recipeRoute)
 app.use('/api/ingredients',ingredientRoute)
 app.use('/api/favourite',favouriteRecipe)
 
-
-
 mongoose.connect(process.env.DB_URI)
     .then(()=>console.log("MongoDB connected"))
     .catch((err)=>console.log("Error connecting"))
+
+
 
 const PORT=process.env.PORT
 app.listen(PORT,()=>{

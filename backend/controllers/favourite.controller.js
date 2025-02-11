@@ -1,4 +1,6 @@
 const favouriteModel=require('../models/favourite.model');
+
+
 const addToFavourites=async(req,res)=>{
     try{
         const {userId,recipeId}=req.body;

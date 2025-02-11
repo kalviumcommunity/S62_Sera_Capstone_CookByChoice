@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 
 
+
+
 const createUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -46,7 +48,7 @@ const createUser = async (req, res) => {
 
 const GetAllUsers=async(req,res)=>{
   try{
-    const users=await User.find().populate('savedRecipes')
+    const users=await User.find()
     res.status(200).json(users)
 
   }catch(err){
@@ -57,7 +59,7 @@ const GetAllUsers=async(req,res)=>{
 
 const GetUserById=async(req,res)=>{
   try {
-    const user = await User.findById(req.params.id).populate('savedRecipes');
+    const user = await User.findById(req.params.id)
     if (!user) return res.status(404).json({ message: "User not found" });
     res.status(200).json(user);
 } catch (error) {

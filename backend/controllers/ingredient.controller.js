@@ -1,6 +1,8 @@
 const Ingredient = require('../models/ingredient.model');
 
 // POST: Add a new ingredient
+
+
 const addIngredient = async (req, res) => {
     try {
         const { name, quantity } = req.body;

@@ -4,9 +4,9 @@ const {createUser,GetAllUsers,GetUserById,UpdateUser} =require('../controllers/u
 
 
 
+router.put('/:id',UpdateUser)
 router.post('/register', createUser);
 router.get('/', GetAllUsers);
 router.get('/:id', GetUserById);
-router.put('/:id',UpdateUser)
 
 module.exports = router;
