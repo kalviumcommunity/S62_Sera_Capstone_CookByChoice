@@ -11,12 +11,22 @@ const createRecipe = async (req, res) => {
     if (!name || !instructions) {
       return res.status(400).json({ message: 'Recipe name and instructions are required' });
     }
+    const ingredientIds = await Promise.all(
+      ingredients.map(async (ingredientName) => {
+        let ingredient = await Ingredient.findOne({ name: ingredientName });
+        if (!ingredient) {
+          ingredient = new Ingredient({ name: ingredientName, quantity: '' });
+          await ingredient.save();
+        }
+        return ingredient._id;
+      })
+    );
    
 
   
     const newRecipe = new Recipe({
       name,
-      ingredients,
+      ingredients:ingredientIds,
       instructions,
       category,
       cuisineType,
