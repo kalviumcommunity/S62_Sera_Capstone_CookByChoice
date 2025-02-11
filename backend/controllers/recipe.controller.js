@@ -1,6 +1,8 @@
 const Recipe = require('../models/recipe.model')
 
 
+
+
 const createRecipe = async (req, res) => {
   try {
     const { name, ingredients, instructions, category, cuisineType, imageUrl, nutrition } = req.body;
@@ -9,6 +11,7 @@ const createRecipe = async (req, res) => {
     if (!name || !instructions) {
       return res.status(400).json({ message: 'Recipe name and instructions are required' });
     }
+   
 
   
     const newRecipe = new Recipe({
@@ -47,7 +50,7 @@ const GetRecipeById=async(req,res)=>{
   } catch (error) {
     res.status(500).json({ error: error.message });
 }
-}
+};
 const UpdateRecipe=async(req,res)=>{
   try {
     const updatedRecipe = await Recipe.findByIdAndUpdate(req.params.id, req.body, { new: true });
