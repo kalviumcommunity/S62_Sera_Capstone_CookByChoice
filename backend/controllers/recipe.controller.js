@@ -1,4 +1,5 @@
 const Recipe = require('../models/recipe.model')
+const Ingredient=require('../models/ingredient.model.js')
 
 
 
@@ -6,27 +7,29 @@ const Recipe = require('../models/recipe.model')
 const createRecipe = async (req, res) => {
   try {
     const { name, ingredients, instructions, category, cuisineType, imageUrl, nutrition } = req.body;
+    console.log(req.body);
 
-    
     if (!name || !instructions) {
       return res.status(400).json({ message: 'Recipe name and instructions are required' });
     }
+
+    // Ensure ingredients is an array and handle ingredient objects correctly
     const ingredientIds = await Promise.all(
-      ingredients.map(async (ingredientName) => {
-        let ingredient = await Ingredient.findOne({ name: ingredientName });
+      ingredients?.map(async (ingredientData) => {
+        let ingredient = await Ingredient.findOne({ name: ingredientData.name });
+
         if (!ingredient) {
-          ingredient = new Ingredient({ name: ingredientName, quantity: '' });
+          ingredient = new Ingredient({ name: ingredientData.name, quantity: ingredientData.quantity || '' });
           await ingredient.save();
         }
+
         return ingredient._id;
       })
     );
-   
 
-  
     const newRecipe = new Recipe({
       name,
-      ingredients:ingredientIds,
+      ingredients: ingredientIds,
       instructions,
       category,
       cuisineType,
@@ -39,7 +42,7 @@ const createRecipe = async (req, res) => {
     return res.status(201).json({ message: 'Recipe created successfully', recipe: newRecipe });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ message: 'Server error', error });
   }
 };
 
