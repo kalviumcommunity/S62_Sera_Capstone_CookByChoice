@@ -33,7 +33,8 @@ const createUser = async (req, res) => {
     await newUser.save();
 
     
-    const token = jwt.sign({ userId: newUser._id }, process.env.SECRET_KEY);
+    const token = generateToken(data);
+
 
     return res.status(201).json({
       message: 'User created successfully',
@@ -43,6 +44,77 @@ const createUser = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Server error' });
+  }
+};
+const generateToken = (data) => {
+  const token = jwt.sign(
+    { name: data.Name, email: data.email, id: data.id },
+    process.env.SECRET_KEY
+  );
+  return token;
+};
+
+const signup = async (req, res) => {
+  const { name, email, password } = req.body;
+  console.log(req.body);
+  try {
+    const CheckUserPresentinDB = await User.findOne({ email: email });
+    if (CheckUserPresentinDB) {
+      return res.status(403).send({ message: "User aldready present" });
+    }
+    
+    bcrypt.hash(password, 10, async function (err, hash) {
+      try {
+        if (err) {
+          console.log(hash, err);
+          return res
+            .status(403)
+            .send({ message: "Please enter the password.." });
+        }
+        console.log(hash, "Password", password);
+        await User.create({
+          name: name,
+          email,
+          password: hash,
+        });
+        
+        return res.status(201).send({ message: "User created successfully.." });
+      } catch (er) {
+        return res.status(500).send({ message: er.message });
+      }
+    });
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+};
+
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  console.log(password);
+  try {
+    const CheckUserPresentinDB = await User.findOne({ email: email });
+    bcrypt.compare(
+      password,
+      CheckUserPresentinDB.password,
+      function (err, result) {
+        if (err) {
+          return res.status(403).send({ message: er.message });
+        }
+        let data = {
+          id: CheckUserPresentinDB._id,
+          email,
+          password: CheckUserPresentinDB.password,
+        };
+        const token = generateToken(data);
+        return res.status(200).cookie("token", token).send({
+          message: "User logged in successfully",
+          success: true,
+          token,
+        });
+      }
+    );
+  } catch (er) {
+    return res.status(403).send({ message: er.message, success: false });
   }
 };
 
@@ -76,4 +148,4 @@ const UpdateUser=async(req,res)=>{
     res.status(500).json({ error: error.message });
 }
 }
-module.exports={createUser,GetAllUsers,GetUserById,UpdateUser}
+module.exports={createUser,GetAllUsers,GetUserById,UpdateUser,signup,login}
