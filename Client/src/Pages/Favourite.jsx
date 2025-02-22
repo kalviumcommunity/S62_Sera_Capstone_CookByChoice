@@ -19,15 +19,19 @@ const FavoritePage = () => {
         }
 
         // Extract recipe IDs correctly
-        const recipeIds = favouriteList.map((fav) => fav.recipeId?._id); // Extract _id from recipeId
+        const recipeIds = favouriteList.map((fav) => {
+          console.log(fav.recipeId);
+          return fav.recipeId;
+        }); // Extract _id from recipeId
         console.log("Extracted Recipe IDs:", recipeIds); // Debugging
 
         // Fetch full details of each recipe
-        const recipeRequests = recipeIds.map((id) =>
+        const recipeRequests = recipeIds?.map((id) =>
           axios.get(`http://localhost:5000/api/recipes/${id}`)
         );
-
         const recipeResponses = await Promise.all(recipeRequests);
+        console.log("requests",recipeResponses)
+
         const recipeData = recipeResponses.map((res) => res.data);
 
         console.log("Fetched Recipe Data:", recipeData); // Debugging

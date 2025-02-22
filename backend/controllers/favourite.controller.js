@@ -1,22 +1,37 @@
 const favouriteModel=require('../models/favourite.model');
 
 
-const addToFavourites=async(req,res)=>{
-    try{
-        const {userId,recipeId}=req.body;
-        const newFavourite=new favouriteModel({userId,recipeId})
-        await newFavourite.save();
-        res.status(201).json({message:"Recipe added to favourites",newFavourite})
+const addToFavourites = async (req, res) => {
+    try {
+        const { recipeId } = req.body;
+        const userId = req.userId; // Get userId from auth middleware
 
-    }catch(err){
-        console.error(err)
-        res.status(500).json({message:"Server error"})
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized: User not logged in" });
+        }
+
+        // Check if the recipe is already in favorites
+        const existingFavourite = await favouriteModel.findOne({ userId, recipeId });
+        if (existingFavourite) {
+            return res.status(400).json({ message: "Recipe is already in favorites" });
+        }
+
+        // If not, add it to favorites
+        const newFavourite = new favouriteModel({ userId, recipeId });
+        await newFavourite.save();
+
+        res.status(201).json({ message: "Recipe added to favorites", newFavourite });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Server error" });
     }
-}
+};
+
 
 const GetAllFavourites=async(req,res)=>{
     try {
-        const favorites = await favouriteModel.find().populate('userId recipeId');
+        const favorites = await favouriteModel.find()
         res.status(200).json(favorites);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -41,4 +56,34 @@ const UpdateFavorite=async(req,res)=>{
         res.status(500).json({ error: error.message });
     }
 }
-module.exports={addToFavourites,GetAllFavourites,GetFavouriteById,UpdateFavorite};
+
+
+const DeleteFavourite = async (req, res) => {
+    try {
+        const  recipeId  = req.params.id;  // Extract recipeId from request parameters
+        const userId = req.userId;  // Assuming userId is available from authentication middleware
+        console.log(recipeId)
+        if (!recipeId) {
+            return res.status(400).json({ message: "Recipe ID is required" });
+        }
+
+        
+        const favourite = await favouriteModel.findOne({ recipeId, userId });
+
+        if (!favourite) {
+            return res.status(404).json({ message: "Favourite recipe not found or not owned by user" });
+        }
+
+    
+        await favouriteModel.findByIdAndDelete(favourite._id);
+
+        res.status(200).json({ message: "Favourite recipe deleted successfully" });
+
+    } catch (error) {
+        console.error("Error deleting favourite:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+module.exports={addToFavourites,GetAllFavourites,GetFavouriteById,UpdateFavorite,DeleteFavourite};

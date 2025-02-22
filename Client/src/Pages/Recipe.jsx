@@ -5,12 +5,15 @@ import RecipeCard from "../components/RecipeCard";
 
 const RecipesPage = () => {
   const [recipes, setRecipes] = useState([]);
+  
 
   useEffect(() => {
     axios.get("http://localhost:5000/api/recipes")
       .then(response => setRecipes(response.data))
       .catch(error => console.error("Error fetching recipes:", error));
   }, []);
+
+  
 
   return (
     <div className="p-6 min-h-screen bg-white">
@@ -21,6 +24,7 @@ const RecipesPage = () => {
           <RecipeCard key={recipe._id} recipe={recipe} />
         ))}
       </div>
+      
     </div>
   );
 };

@@ -14,7 +14,7 @@ const Navbar = () => {
           <Link to="/" className="hover:text-amber-300 transition duration-300">Home</Link>
           <Link to="/recipes" className="hover:text-amber-300 transition duration-300">Recipes</Link>
           <Link to="/add-recipe" className="hover:text-amber-300 transition duration-300">Add Recipe</Link>
-          <Link to="/favorites" className="hover:text-amber-300 transition duration-300">Favorites</Link>
+          <Link to="/favorites" className="hover:text-amber-300 transition duration-300">Favourites</Link>
           <Link to="/login" className="hover:text-amber-300 transition duration-300">Login</Link>
         </div>
 
@@ -43,7 +43,7 @@ const Navbar = () => {
           <Link to="/" className="text-white hover:text-amber-300 transition duration-300" onClick={() => setIsOpen(false)}>Home</Link>
           <Link to="/recipes" className="text-white hover:text-amber-300 transition duration-300" onClick={() => setIsOpen(false)}>Recipes</Link>
           <Link to="/add-recipe" className="text-white hover:text-amber-300 transition duration-300" onClick={() => setIsOpen(false)}>Add Recipe</Link>
-          <Link to="/favorites" className="text-white hover:text-amber-300 transition duration-300" onClick={() => setIsOpen(false)}>Favorites</Link>
+          <Link to="/favorites" className="text-white hover:text-amber-300 transition duration-300" onClick={() => setIsOpen(false)}>Favourites</Link>
           <Link to="/login" className="text-white hover:text-amber-300 transition duration-300" onClick={() => setIsOpen(false)}>Login</Link>
         </div>
       )}
