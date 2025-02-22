@@ -7,11 +7,14 @@ import SignupPage from "./Pages/Signup";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import FavoritePage from "./Pages/Favourite";
+import UpdateRecipe from "./Pages/UpdateRecipe";
+import { useState } from "react";
 
 const App = () => {
+  const [isAdded,setIsAdded]=useState(false)
   return (
     <Router>
-      <div className="min-h-screen bg-pastel-blue">
+      
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -20,9 +23,10 @@ const App = () => {
           <Route path="/favorites" element={< FavoritePage/>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/update-recipe/:id" element={<UpdateRecipe />} />
         </Routes>
         <Footer/>
-      </div>
+
     </Router>
   );
 };

@@ -2,16 +2,27 @@ import React from "react";
 import axios from "axios";
 
 const FavouriteCard = ({ recipe }) => {
-//   const handleRemove = async (recipeId) => {
-//     try {
-//       await axios.delete(`http://localhost:5000/api/favourite/${recipeId}`);
-//       alert("Recipe removed from favorites!");
-//       window.location.reload(); // Refresh to reflect changes
-//     } catch (error) {
-//       console.error("Error removing recipe:", error);
-//       alert("Failed to remove recipe. Try again.");
-//     }
-//   };
+  const handleRemove = async (recipeId) => {
+    try {
+        const token = localStorage.getItem("token"); // Retrieve JWT token from localStorage
+
+        if (!token) {
+            alert("User not authenticated. Please log in.");
+            return;
+        }
+
+        // Send token as a query parameter
+        await axios.delete(`http://localhost:5000/api/favourite/${recipeId}?token=${token}`);
+
+        alert("Recipe removed from favorites!");
+        window.location.reload(); // Refresh to reflect changes
+    } catch (error) {
+        console.error("Error removing recipe:", error.response?.data || error.message);
+        alert(error.response?.data?.message || "Failed to remove recipe. Try again.");
+    }
+};
+
+
 
   return (
     <div className="bg-white p-5 rounded-xl shadow-lg border-2 border-[#5E3023] transform transition-all duration-300 hover:shadow-2xl hover:scale-105 relative">
@@ -47,7 +58,7 @@ const FavouriteCard = ({ recipe }) => {
       
       <button
         className="mt-4 w-full px-4 py-2 rounded-lg bg-amber-300 text-[#5E3023] hover:bg-amber-400 transition"
-        // onClick={() => handleRemove(recipe._id)}
+        onClick={() => handleRemove(recipe._id)}
       >
         Remove from Favourites
       </button>

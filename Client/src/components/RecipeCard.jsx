@@ -1,19 +1,41 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RecipeCard = ({ recipe }) => {
   const [isAdded, setIsAdded] = useState(false);
+  const navigate = useNavigate();
 
   const handleAddToFavorites = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/favourite/create", {
-        recipeId: recipe._id
-      });
-
-      alert(response.data.message); // Show success message
-      setIsAdded(true); // Update button text to "Added"
+      const token = localStorage.getItem("token"); 
+  
+      if (!token) {
+        alert("User not authenticated. Please log in.");
+        return;
+      }
+      
+      const response = await axios.post(
+        `http://localhost:5000/api/favourite/create?token=${token}`, // Send token in query params
+        {
+          recipeId: recipe._id,
+        }
+      );
+  
+      alert(response.data.message); 
+      setIsAdded(true); 
     } catch (error) {
       alert(error.response?.data?.message || "Failed to add to favorites");
+    }
+  };
+  
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/recipes/${id}`);
+      alert("Recipe deleted successfully.");
+    } catch (error) {
+      console.error("Error deleting recipe:", error);
+      alert("Failed to delete recipe.");
     }
   };
 
@@ -26,17 +48,19 @@ const RecipeCard = ({ recipe }) => {
           alt={recipe.name}
           className="w-full h-full object-cover rounded-xl"
         />
-        <span className="absolute top-2 right-2 bg-amber-400 text-white text-xs font-semibold px-2 py-1 rounded-md shadow-md">
-          {recipe.category}
-        </span>
+        {recipe.category && (
+          <span className="absolute top-2 right-2 bg-amber-400 text-white text-xs font-semibold px-2 py-1 rounded-md shadow-md">
+            {recipe.category}
+          </span>
+        )}
       </div>
 
       {/* Recipe Details */}
       <h3 className="text-xl font-bold text-gray-800 mt-3">{recipe.name}</h3>
-      <p className="text-sm text-gray-600">{recipe.cuisineType}</p>
+      {recipe.cuisineType && <p className="text-sm text-gray-600">{recipe.cuisineType}</p>}
 
       {/* Ingredients Section */}
-      {recipe.ingredients && (
+      {recipe.ingredients?.length > 0 && (
         <div className="mt-3">
           <h4 className="text-md font-semibold text-gray-700">Ingredients:</h4>
           <ul className="list-disc pl-5 space-y-1 text-sm text-gray-600">
@@ -53,10 +77,12 @@ const RecipeCard = ({ recipe }) => {
       )}
 
       {/* Instructions Section */}
-      <div className="mt-3">
-        <h4 className="text-md font-semibold text-gray-700">Instructions:</h4>
-        <p className="text-sm text-gray-600 line-clamp-2">{recipe.instructions}</p>
-      </div>
+      {recipe.instructions && (
+        <div className="mt-3">
+          <h4 className="text-md font-semibold text-gray-700">Instructions:</h4>
+          <p className="text-sm text-gray-600 line-clamp-2">{recipe.instructions}</p>
+        </div>
+      )}
 
       {/* Bottom Section: Nutrition + Add Button */}
       <div className="mt-4">
@@ -73,15 +99,33 @@ const RecipeCard = ({ recipe }) => {
           </div>
         )}
 
-        {/* Add to Favorites Button */}
-        <button
-          onClick={handleAddToFavorites}
-          className={`mt-4 w-full px-4 py-2 rounded-lg transition 
-            ${isAdded ? "bg-amber-500 cursor-not-allowed" : "bg-amber-300 hover:bg-amber-400 text-white"}`}
-          disabled={isAdded} // Disable button after adding
-        >
-          {isAdded ? "Added to Favourites" : "Add to Favorites 🤎"}
-        </button>
+        {/* Buttons Section */}
+        <div className="flex flex-col mt-4 gap-2">
+          <button
+            onClick={handleAddToFavorites}
+            className={`w-full px-4 py-2 rounded-lg transition text-white font-semibold
+              ${isAdded ? "bg-amber-500 cursor-not-allowed" : "bg-amber-300 hover:bg-amber-400"}`}
+            disabled={isAdded}
+          >
+            {isAdded ? "Added to Favorites" : "Add to Favorites 🤎"}
+          </button>
+
+          <div className="flex justify-between gap-2">
+            <button
+              onClick={() => navigate(`/update-recipe/${recipe._id}`)}
+              className="w-1/2 bg-[#5E3023] text-white px-4 py-2 rounded-lg hover:bg-[#8B5A2B] transition"
+            >
+              Edit
+            </button>
+
+            <button
+              onClick={() => handleDelete(recipe._id)}
+              className="w-1/2 bg-[#8B5A2B] text-white px-4 py-2 rounded-lg hover:bg-[#5E3023] transition"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
