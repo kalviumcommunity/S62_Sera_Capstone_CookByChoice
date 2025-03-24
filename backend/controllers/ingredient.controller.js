@@ -46,6 +46,17 @@ const UpdateIngredient = async (req, res) => {
         res.status(200).json(updatedIngredient);
     } catch (error) {
         res.status(500).json({ error: error.message });
+    
     }
 };
-module.exports={addIngredient,GetAllIngredients,GetIngredientById,UpdateIngredient};
+
+const DeleteIngredient = async (req, res) => {
+    try {
+        const deletedIngredient = await Ingredient.findByIdAndDelete(req.params.id);
+        if (!deletedIngredient) return res.status(404).json({ message: "Ingredient not found" });
+        res.status(200).json({ message: "Ingredient deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+module.exports={addIngredient,GetAllIngredients,GetIngredientById,UpdateIngredient,DeleteIngredient};

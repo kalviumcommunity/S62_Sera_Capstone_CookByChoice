@@ -31,7 +31,8 @@ const addToFavourites = async (req, res) => {
 
 const GetAllFavourites=async(req,res)=>{
     try {
-        const favorites = await favouriteModel.find()
+        const favorites = await favouriteModel.find({userId:req.userId})
+
         res.status(200).json(favorites);
     } catch (error) {
         res.status(500).json({ error: error.message });

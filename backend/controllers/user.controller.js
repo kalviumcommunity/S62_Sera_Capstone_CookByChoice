@@ -100,6 +100,10 @@ const login = async (req, res) => {
         if (err) {
           return res.status(403).send({ message: er.message });
         }
+        if (!result) {  
+          return res.status(401).send({ message: "Invalid credentials", success: false });
+        }
+  
         let data = {
           id: CheckUserPresentinDB._id,
           email,
