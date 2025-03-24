@@ -6,3 +6,4 @@ CookByChoice is a recipe discovery application that allows users to find recipes
 Many people struggle to decide what to cook with the ingredients they currently have. This application simplifies the process by offering recipe suggestions based on the entered ingredients, user preferences, and dietary restrictions.
 
 Backend Deployment Link:https://s62-sera-capstone-cookbychoice.onrender.com
+frontend Deployment link:cookbychoice.netlify.app

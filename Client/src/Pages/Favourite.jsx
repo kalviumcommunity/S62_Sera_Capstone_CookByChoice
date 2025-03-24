@@ -9,8 +9,14 @@ const FavoritePage = () => {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
+        const token = localStorage.getItem("token"); // Retrieve the token from local storage
+    if (!token) {
+      console.error("No token found. User must log in.");
+      return;
+    }
+
         // Fetch favorite recipes list
-        const { data: favouriteList } = await axios.get("http://localhost:5000/api/favourite");
+        const { data: favouriteList } = await axios.get(`http://localhost:5000/api/favourite?token=${token}`);
         console.log("Favourite List:", favouriteList); // Debugging
 
         if (!favouriteList || favouriteList.length === 0) {

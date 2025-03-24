@@ -88,7 +88,7 @@ const UpdateRecipe = () => {
       
       const updatedIngredients = recipe.ingredients.filter((_, i) => i !== index);
   
-      
+      axios.put
       setRecipe((prev) => ({
         ...prev,
         ingredients: updatedIngredients,

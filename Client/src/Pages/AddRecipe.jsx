@@ -17,7 +17,7 @@ const AddRecipePage = () => {
     },
   });
 
-  const [ingredientInput, setIngredientInput] = useState({ name: "", quantity: "" });
+  const [ingredientInput, setIngredientInput] = useState({name: "", quantity: "" });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
@@ -86,7 +86,8 @@ const AddRecipePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#F3E9DC] to-[#F3E9DC] px-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#F3E9DC] to-[#F3E9DC] px-4"
+    >
       <h2 className="text-3xl sm:text-4xl font-extrabold text-[#5E3023] mb-6">
         Add a New Recipe
       </h2>

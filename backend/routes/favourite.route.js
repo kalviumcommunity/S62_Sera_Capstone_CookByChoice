@@ -5,7 +5,7 @@ const verifyUser=require('../middlewares/authMiddleware')
 
 router.put('/:id',UpdateFavorite);
 router.post('/create',verifyUser,addToFavourites)
-router.get('/', GetAllFavourites);
+router.get('/',verifyUser, GetAllFavourites);
 router.get('/:id', GetFavouriteById);
 router.delete('/:id',verifyUser,DeleteFavourite)
 

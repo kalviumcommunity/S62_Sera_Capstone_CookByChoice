@@ -38,7 +38,7 @@ const createRecipe = async (req, res) => {
       return ingredient._id;
     });
     const ingredientIds = await Promise.all(ingredientStorage);
-    console.log(ingredientIds);
+    console.log(ingredientIds,"iij");
 
     const newRecipe = new Recipe({
       name,

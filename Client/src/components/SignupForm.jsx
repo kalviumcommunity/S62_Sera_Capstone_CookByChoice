@@ -43,7 +43,6 @@ const SignupForm = () => {
 
             <h2 className="text-2xl font-bold mb-5 text-center text-gray-800">Sign Up</h2>
             <p className="text-center text-gray-500 mb-6">Create a new account.</p>
-
             <input
               type="text"
               name="name"
@@ -57,7 +56,7 @@ const SignupForm = () => {
             <input
               type="email"
               name="email"
-              value=""
+              value={formData.email}
               onChange={handleChange}
               placeholder="Email"
               required
@@ -67,7 +66,7 @@ const SignupForm = () => {
             <input
               type="password"
               name="password"
-              value=""
+              value={formData.password}
               onChange={handleChange}
               placeholder="Password"
               required
