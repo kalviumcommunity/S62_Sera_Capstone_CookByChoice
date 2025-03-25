@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios";
 import Logo from '../assets/logo.png';
 import { Link, useNavigate } from "react-router-dom";
@@ -9,7 +9,11 @@ const SignupForm = () => {
     email: "",
     password: "",
   });
+  const [animate, setAnimate] = useState(false);
   const navigate = useNavigate();
+  useEffect(() => {
+      setAnimate(true);
+    }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,7 +32,9 @@ const SignupForm = () => {
 
   return (
     <div className="flex h-screen justify-center items-center bg-gray-100">
-      <div className="flex w-3/4 h-3/4 shadow-lg rounded-lg overflow-hidden">
+      <div className={`flex w-3/4 h-3/4 shadow-lg rounded-lg overflow-hidden transform transition-all duration-700 ease-out ${
+          animate ? "opacity-100 scale-100" : "opacity-0 scale-90"
+        }`}>
        
         
 

@@ -63,7 +63,7 @@ if (token) {
     setIngredientSearch(event.target.value);
   };
 
-  const filteredRecipes = recipes.filter(
+  const filteredRecipes =selectedIngredients.size===0?recipes: recipes.filter(
     (recipe) =>
       recipe.ingredients.every((ing) => selectedIngredients.has(ing._id)) &&
       recipe.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -120,7 +120,8 @@ if (token) {
         />
         <br />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-          {filteredRecipes.length > 0 ? (
+          
+        {filteredRecipes.length > 0 ? (
             filteredRecipes.map((recipe) => (
               <RecipeCard key={recipe._id} recipe={recipe} />
             ))
