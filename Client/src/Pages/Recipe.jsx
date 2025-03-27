@@ -19,6 +19,7 @@ if (token) {
 }
   // To save selectedIngredients back to localStorage
   useEffect(() => {
+    console.log(selectedIngredients,"hh")
     localStorage.setItem("setIng", JSON.stringify([...selectedIngredients]));
   }, [selectedIngredients]);
 
