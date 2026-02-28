@@ -7,4 +7,5 @@ Many people struggle to decide what to cook with the ingredients they currently 
 
 Backend Deployment Link:https://s62-sera-capstone-cookbychoice.onrender.com
 
-frontend Deployment link:https://cookbychoice-web.netlify.app/
+
+Frontend Deployment link:https://cookbychoice-web.netlify.app/
