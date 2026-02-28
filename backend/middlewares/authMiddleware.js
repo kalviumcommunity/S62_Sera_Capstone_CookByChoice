@@ -1,3 +1,5 @@
+//Json Web Token 
+
 const jwt = require("jsonwebtoken");
 
 if (process.env.NODE !== "PRODUCTION") {
