@@ -32,13 +32,19 @@ app.use("/api/recipes", recipeRoute);
 app.use("/api/ingredients", ingredientRoute);
 app.use("/api/favourite", favouriteRecipe);
 app.use("/api/meal-planner", mealPlannerRoutes);
+app.use(
+  cors({
+    origin:'https://cookbychoice.netlify.app',
+    credentials: true, // Allow cookies to be sent
+  })
+);
 
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:5000/auth/google/callback",
+      callbackURL: "https://s62-sera-capstone-cookbychoice.onrender.com/auth/google/callback",
     },
     (accessToken, refreshToken, profile, done) => {
       return done(null, { profile, accessToken });
@@ -89,10 +95,10 @@ app.get(
         { expiresIn: "1h" } // Token expires in 1 hour
       );
       res.cookie("token",token,{httpOnly:true})
-      res.redirect(`http://localhost:5173/recipes?token=${token}`);
+      res.redirect(`https://cookbychoice-web.netlify.app/recipes?token=${token}`);
     } catch (error) {
       console.error("Login failed:", error);
-      res.redirect("http://localhost:5173?error=login_failed");
+      res.redirect("https://cookbychoice-web.netlify.app/recipes?error=login_failed");
     }
   }
 );
