@@ -4,6 +4,7 @@ import Logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
+// Google login
 const LoginForm = () => {
   const handleGoogleLogin = () => {
     window.location.href = "http://localhost:5000/auth/google";
